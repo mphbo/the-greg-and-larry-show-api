@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using the_greg_and_larry_show_api.Models;
 
 namespace the_greg_and_larry_show_api.Services.PlayerService
 {
@@ -12,20 +13,25 @@ namespace the_greg_and_larry_show_api.Services.PlayerService
             new Player {Name = "Larry", Id = 1}
         };
 
-        public List<Player> AddPlayer(Player newPlayer)
+        public async Task<ServiceResponse<List<Player>>> AddPlayer(Player newPlayer)
         {
+            var serviceResponse = new ServiceResponse<List<Player>>();
             players.Add(newPlayer);
-            return players;
+            serviceResponse.Data = players;
+            return serviceResponse;
         }
 
-        public List<Player> GetAllPlayers()
+        public async Task<ServiceResponse<List<Player>>> GetAllPlayers()
         {
-            return players;
+            return new ServiceResponse<List<Player>> { Data = players };
         }
 
-        public Player GetPlayerById(int id)
+        public async Task<ServiceResponse<Player>> GetPlayerById(int id)
         {
-            return players.FirstOrDefault(p => p.Id == id);
+            var serviceResponse = new ServiceResponse<Player>();
+            var player = players.FirstOrDefault(p => p.Id == id);
+            serviceResponse.Data = player;
+            return serviceResponse;
         }
     }
 }

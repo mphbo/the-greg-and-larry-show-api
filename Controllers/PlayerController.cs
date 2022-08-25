@@ -18,21 +18,21 @@ namespace the_greg_and_larry_show_api.Controllers
             _playerService = playerService;
         }
         [HttpGet("GetAll")]
-        public ActionResult<List<Player>> Get()
+        public async Task<ActionResult<ServiceResponse<List<Player>>>> Get()
         {
-            return Ok(_playerService.GetAllPlayers());
+            return Ok(await _playerService.GetAllPlayers());
         }
 
         [HttpGet("{id}")]
-        public ActionResult<Player> GetSingle(int id)
+        public async Task<ActionResult<ServiceResponse<Player>>> GetSingle(int id)
         {
-            return Ok(_playerService.GetPlayerById(id));
+            return Ok(await _playerService.GetPlayerById(id));
         }
 
         [HttpPost]
-        public ActionResult<List<Player>> AddPlayer(Player newPlayer)
+        public async Task<ActionResult<ServiceResponse<List<Player>>>> AddPlayer(Player newPlayer)
         {
-            return Ok(_playerService.AddPlayer(newPlayer));
+            return Ok(await _playerService.AddPlayer(newPlayer));
         }
     }
 }
