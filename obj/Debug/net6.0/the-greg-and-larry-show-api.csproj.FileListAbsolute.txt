@@ -25,3 +25,5 @@
 /Users/logan.thomas/Websites/the-greg-and-larry-show-api/obj/Debug/net6.0/the-greg-and-larry-show-api.pdb
 /Users/logan.thomas/Websites/the-greg-and-larry-show-api/obj/Debug/net6.0/the-greg-and-larry-show-api.genruntimeconfig.cache
 /Users/logan.thomas/Websites/the-greg-and-larry-show-api/obj/Debug/net6.0/ref/the-greg-and-larry-show-api.dll
+/Users/logan.thomas/Websites/the-greg-and-larry-show-api/bin/Debug/net6.0/AutoMapper.dll
+/Users/logan.thomas/Websites/the-greg-and-larry-show-api/bin/Debug/net6.0/AutoMapper.Extensions.Microsoft.DependencyInjection.dll
