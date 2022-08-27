@@ -1,4 +1,6 @@
 global using the_greg_and_larry_show_api.Models;
+using Microsoft.EntityFrameworkCore;
+using the_greg_and_larry_show_api.Data;
 using the_greg_and_larry_show_api.Services;
 using the_greg_and_larry_show_api.Services.PlayerService;
 
@@ -6,6 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
+builder.Services.AddDbContext<DataContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
