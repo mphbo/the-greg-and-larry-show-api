@@ -14,6 +14,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IPlayerService, PlayerService>();
+builder.Services.AddScoped<IAuthRepository, AuthRepository>();
 builder.Services.AddAutoMapper(typeof(Program).Assembly);
 
 var app = builder.Build();

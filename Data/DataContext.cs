@@ -14,5 +14,6 @@ namespace the_greg_and_larry_show_api.Data
         }
 
         public DbSet<Player> Players { get; set; }
+        public DbSet<Round> Rounds { get; set; }
     }
 }
