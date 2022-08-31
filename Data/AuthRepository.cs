@@ -14,9 +14,26 @@ namespace the_greg_and_larry_show_api.Data
         {
             _context = context;
         }
-        public Task<ServiceResponse<string>> Login(string username, string password)
+        public async Task<ServiceResponse<string>> Login(string email, string password)
         {
-            throw new NotImplementedException();
+            var response = new ServiceResponse<string>();
+            var player = await _context.Players.FirstOrDefaultAsync(p => p.Email.ToLower().Equals(email.ToLower()));
+
+            if (player == null)
+            {
+                response.Success = false;
+                response.Message = "Email address not found.";
+            }
+            else if (!VerifyPasswordHash(password, player.PasswordHash, player.PasswordSalt))
+            {
+                response.Success = false;
+                response.Message = "Incorrect password.";
+            }
+            else
+            {
+                response.Data = player.Id.ToString();
+            }
+            return response;
         }
 
         public async Task<ServiceResponse<int>> Register(Player player, string password)
@@ -71,6 +88,16 @@ namespace the_greg_and_larry_show_api.Data
             {
                 passwordSalt = hmac.Key;
                 passwordHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
+            }
+        }
+
+        private bool VerifyPasswordHash(string password, byte[] passwordHash, byte[] passwordSalt)
+        {
+            using (var hmac = new System.Security.Cryptography.HMACSHA512(passwordSalt))
+            {
+                var computeHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
+                return computeHash.SequenceEqual(passwordHash);
+
             }
         }
     }

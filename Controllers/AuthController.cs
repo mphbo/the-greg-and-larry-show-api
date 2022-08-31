@@ -31,5 +31,16 @@ namespace the_greg_and_larry_show_api.Controllers
             }
             return Ok(response);
         }
+
+        [HttpPost("login")]
+        public async Task<ActionResult<ServiceResponse<int>>> Login(PlayerLoginDto request)
+        {
+            var response = await _authRepo.Login(request.Email, request.Password);
+            if (!response.Success)
+            {
+                return BadRequest(response);
+            }
+            return Ok(response);
+        }
     }
 }
