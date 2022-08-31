@@ -2,12 +2,14 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using the_greg_and_larry_show_api.Dtos.Player;
 using the_greg_and_larry_show_api.Services;
 
 namespace the_greg_and_larry_show_api.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     public class PlayerController : ControllerBase
