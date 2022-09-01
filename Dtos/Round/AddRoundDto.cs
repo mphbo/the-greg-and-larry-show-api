@@ -7,6 +7,6 @@ namespace the_greg_and_larry_show_api.Dtos.Round
 {
     public class AddRoundDto
     {
-        public int Player_Id { get; set; }
+        public int PlayerId { get; set; }
     }
 }

@@ -25,11 +25,11 @@ namespace the_greg_and_larry_show_api.Services.RoundService
             var response = new ServiceResponse<List<GetRoundDto>>();
             Round round = _mapper.Map<Round>(newRound);
 
-            round.Player = await _context.Players.FirstOrDefaultAsync(p => p.Id == newRound.Player_Id);
+            round.Player = await _context.Players.FirstOrDefaultAsync(p => p.Id == newRound.PlayerId);
 
             _context.Rounds.Add(round);
             await _context.SaveChangesAsync();
-            response.Data = await _context.Rounds.Where(r => r.Player.Id == newRound.Player_Id).Select(p => _mapper.Map<GetRoundDto>(p)).ToListAsync();
+            response.Data = await _context.Rounds.Where(r => r.Player.Id == newRound.PlayerId).Select(p => _mapper.Map<GetRoundDto>(p)).ToListAsync();
             return response;
 
         }

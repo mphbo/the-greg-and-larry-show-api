@@ -61,7 +61,7 @@ namespace the_greg_and_larry_show_api.Services.PlayerService
         public async Task<ServiceResponse<GetPlayerDto>> GetPlayerById(int id)
         {
             var serviceResponse = new ServiceResponse<GetPlayerDto>();
-            var dbPlayer = await _context.Players.FirstOrDefaultAsync(p => p.Id == id);
+            var dbPlayer = await _context.Players.Include(p => p.Rounds).FirstOrDefaultAsync(p => p.Id == id);
             serviceResponse.Data = _mapper.Map<GetPlayerDto>(dbPlayer);
             return serviceResponse;
         }
