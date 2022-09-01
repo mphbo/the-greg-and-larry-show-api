@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using the_greg_and_larry_show_api.Dtos.Player;
+using the_greg_and_larry_show_api.Dtos.Round;
 
 namespace the_greg_and_larry_show_api
 {
@@ -13,6 +14,8 @@ namespace the_greg_and_larry_show_api
         {
             CreateMap<Player, GetPlayerDto>();
             CreateMap<AddPlayerDto, Player>();
+            CreateMap<Round, GetRoundDto>();
+            CreateMap<AddRoundDto, Round>();
         }
     }
 }

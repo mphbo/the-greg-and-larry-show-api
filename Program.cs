@@ -7,11 +7,11 @@ using Swashbuckle.AspNetCore.Filters;
 using the_greg_and_larry_show_api.Data;
 using the_greg_and_larry_show_api.Services;
 using the_greg_and_larry_show_api.Services.PlayerService;
+using the_greg_and_larry_show_api.Services.RoundService;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
 builder.Services.AddDbContext<DataContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -28,6 +28,7 @@ builder.Services.AddSwaggerGen(c =>
     c.OperationFilter<SecurityRequirementsOperationFilter>();
 });
 builder.Services.AddScoped<IPlayerService, PlayerService>();
+builder.Services.AddScoped<IRoundService, RoundService>();
 builder.Services.AddScoped<IAuthRepository, AuthRepository>();
 builder.Services.AddAutoMapper(typeof(Program).Assembly);
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)

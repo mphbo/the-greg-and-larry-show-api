@@ -108,10 +108,9 @@ namespace the_greg_and_larry_show_api.Data
 
         private string CreateToken(Player player)
         {
-            List<Claim> claims = new List<Claim>
-            {
+            List<Claim> claims = new List<Claim> {
                 new Claim(ClaimTypes.NameIdentifier, player.Id.ToString()),
-                new Claim(ClaimTypes.Name, player.Email),
+                new Claim(ClaimTypes.Name, player.Email)
             };
 
             SymmetricSecurityKey key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(_configuration.GetSection("AppSettings:Token").Value));
