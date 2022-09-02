@@ -69,10 +69,10 @@ namespace the_greg_and_larry_show_api.Services.RoundService
             return response;
         }
 
-        public async Task<ServiceResponse<GetRoundDto>> GetRoundById(int id)
+        public async Task<ServiceResponse<GetRoundDto>> GetRoundById(int id, int userId)
         {
             var response = new ServiceResponse<GetRoundDto>();
-            var dbRound = await _context.Rounds.FirstOrDefaultAsync(r => r.Id == id);
+            var dbRound = await _context.Rounds.Where(r => r.User.Id == userId).FirstOrDefaultAsync(r => r.Id == id);
             response.Data = _mapper.Map<GetRoundDto>(dbRound);
             return response;
         }

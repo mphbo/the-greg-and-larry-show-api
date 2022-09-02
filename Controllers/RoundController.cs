@@ -30,9 +30,9 @@ namespace the_greg_and_larry_show_api.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<ServiceResponse<GetRoundDto>>> GetSingle(int id)
+        public async Task<ActionResult<ServiceResponse<GetRoundDto>>> GetSingle(int id, int userId)
         {
-            return Ok(await _roundService.GetRoundById(id));
+            return Ok(await _roundService.GetRoundById(id, userId));
         }
 
         [HttpPost]
