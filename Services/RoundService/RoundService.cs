@@ -25,11 +25,11 @@ namespace the_greg_and_larry_show_api.Services.RoundService
             var response = new ServiceResponse<List<GetRoundDto>>();
             Round round = _mapper.Map<Round>(newRound);
 
-            round.Player = await _context.Players.FirstOrDefaultAsync(p => p.Id == newRound.PlayerId);
+            round.User = await _context.Users.FirstOrDefaultAsync(p => p.Id == newRound.UserId);
 
             _context.Rounds.Add(round);
             await _context.SaveChangesAsync();
-            response.Data = await _context.Rounds.Where(r => r.Player.Id == newRound.PlayerId).Select(p => _mapper.Map<GetRoundDto>(p)).ToListAsync();
+            response.Data = await _context.Rounds.Where(r => r.User.Id == newRound.UserId).Select(p => _mapper.Map<GetRoundDto>(p)).ToListAsync();
             return response;
 
         }
@@ -61,10 +61,10 @@ namespace the_greg_and_larry_show_api.Services.RoundService
             return response;
         }
 
-        public async Task<ServiceResponse<List<GetRoundDto>>> GetAllRounds()
+        public async Task<ServiceResponse<List<GetRoundDto>>> GetAllRounds(int userId)
         {
             var response = new ServiceResponse<List<GetRoundDto>>();
-            var dbRounds = await _context.Rounds.ToListAsync();
+            var dbRounds = await _context.Rounds.Where(r => r.User.Id == userId).ToListAsync();
             response.Data = dbRounds.Select(p => _mapper.Map<GetRoundDto>(p)).ToList();
             return response;
         }
@@ -88,8 +88,8 @@ namespace the_greg_and_larry_show_api.Services.RoundService
                 {
                     dbRound.Score = updatedRound.Score;
                     dbRound.Level = updatedRound.Level;
-                    dbRound.IsSaved = updatedRound.IsSaved;
                     dbRound.IsDeleted = updatedRound.IsDeleted;
+                    dbRound.IsSaved = true;
                 }
 
                 await _context.SaveChangesAsync();

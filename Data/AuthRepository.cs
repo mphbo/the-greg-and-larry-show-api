@@ -22,65 +22,65 @@ namespace the_greg_and_larry_show_api.Data
         public async Task<ServiceResponse<string>> Login(string email, string password)
         {
             var response = new ServiceResponse<string>();
-            var player = await _context.Players.FirstOrDefaultAsync(p => p.Email.ToLower().Equals(email.ToLower()));
+            var User = await _context.Users.FirstOrDefaultAsync(p => p.Email.ToLower().Equals(email.ToLower()));
 
-            if (player == null)
+            if (User == null)
             {
                 response.Success = false;
                 response.Message = "Email address not found.";
             }
-            else if (!VerifyPasswordHash(password, player.PasswordHash, player.PasswordSalt))
+            else if (!VerifyPasswordHash(password, User.PasswordHash, User.PasswordSalt))
             {
                 response.Success = false;
                 response.Message = "Incorrect password.";
             }
             else
             {
-                response.Data = CreateToken(player);
+                response.Data = CreateToken(User);
             }
             return response;
         }
 
-        public async Task<ServiceResponse<int>> Register(Player player, string password)
+        public async Task<ServiceResponse<int>> Register(User User, string password)
         {
             ServiceResponse<int> response = new ServiceResponse<int>();
-            if (await PlayerEmailExists(player.Email))
+            if (await UserEmailExists(User.Email))
             {
                 response.Success = false;
-                response.Message = "Player email already exists.";
+                response.Message = "User email already exists.";
                 return response;
             }
 
-            if (await PlayerUsernameExists(player.Username))
+            if (await UserUsernameExists(User.Username))
             {
                 response.Success = false;
-                response.Message = "Player username already exists.";
+                response.Message = "User username already exists.";
                 return response;
             }
 
             CreatePasswordHash(password, out byte[] passwordHash, out byte[] passwordSalt);
 
-            player.PasswordHash = passwordHash;
-            player.PasswordSalt = passwordSalt;
+            User.PasswordHash = passwordHash;
+            User.PasswordSalt = passwordSalt;
 
-            _context.Players.Add(player);
+            _context.Users.Add(User);
             await _context.SaveChangesAsync();
-            response.Data = player.Id;
+            response.Data = User.Id;
             return response;
         }
 
-        public async Task<bool> PlayerEmailExists(string email)
+        public async Task<bool> UserEmailExists(string email)
         {
-            if (await _context.Players.AnyAsync(p => p.Email.ToLower() == email.ToLower()))
+            if (await _context.Users.AnyAsync(p => p.Email.ToLower() == email.ToLower()))
             {
                 return true;
             }
             return false;
         }
 
-        public async Task<bool> PlayerUsernameExists(string username)
+        public async Task<bool> UserUsernameExists(string username)
         {
-            if (await _context.Players.AnyAsync(p => p.Username.ToLower() == username.ToLower()))
+            if (await _context.Users.AnyAsync(p => p.Username.ToLower() == username.ToLower()))
             {
                 return true;
             }
@@ -106,11 +106,11 @@ namespace the_greg_and_larry_show_api.Data
             }
         }
 
-        private string CreateToken(Player player)
+        private string CreateToken(User User)
         {
             List<Claim> claims = new List<Claim> {
-                new Claim(ClaimTypes.NameIdentifier, player.Id.ToString()),
-                new Claim(ClaimTypes.Name, player.Email)
+                new Claim(ClaimTypes.NameIdentifier, User.Id.ToString()),
+                new Claim(ClaimTypes.Name, User.Email)
             };
 
             SymmetricSecurityKey key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(_configuration.GetSection("AppSettings:Token").Value));

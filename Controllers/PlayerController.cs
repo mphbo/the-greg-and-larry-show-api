@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using the_greg_and_larry_show_api.Dtos.Player;
+using the_greg_and_larry_show_api.Dtos.User;
 using the_greg_and_larry_show_api.Services;
 
 namespace the_greg_and_larry_show_api.Controllers
@@ -12,36 +12,30 @@ namespace the_greg_and_larry_show_api.Controllers
     [Authorize]
     [ApiController]
     [Route("api/[controller]")]
-    public class PlayerController : ControllerBase
+    public class UserController : ControllerBase
     {
-        private readonly IPlayerService _playerService;
+        private readonly IUserService _UserService;
 
-        public PlayerController(IPlayerService playerService)
+        public UserController(IUserService UserService)
         {
-            _playerService = playerService;
+            _UserService = UserService;
         }
         [HttpGet("GetAll")]
-        public async Task<ActionResult<ServiceResponse<List<GetPlayerDto>>>> Get()
+        public async Task<ActionResult<ServiceResponse<List<GetUserDto>>>> Get()
         {
-            return Ok(await _playerService.GetAllPlayers());
+            return Ok(await _UserService.GetAllUsers());
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<ServiceResponse<GetPlayerDto>>> GetSingle(int id)
+        public async Task<ActionResult<ServiceResponse<GetUserDto>>> GetSingle(int id)
         {
-            return Ok(await _playerService.GetPlayerById(id));
-        }
-
-        [HttpPost]
-        public async Task<ActionResult<ServiceResponse<List<GetPlayerDto>>>> AddPlayer(AddPlayerDto newPlayer)
-        {
-            return Ok(await _playerService.AddPlayer(newPlayer));
+            return Ok(await _UserService.GetUserById(id));
         }
 
         [HttpPut]
-        public async Task<ActionResult<ServiceResponse<GetPlayerDto>>> UpdatePlayer(UpdatePlayerDto updatedPlayer)
+        public async Task<ActionResult<ServiceResponse<GetUserDto>>> UpdateUser(UpdateUserDto updatedUser)
         {
-            var response = await _playerService.UpdatePlayer(updatedPlayer);
+            var response = await _UserService.UpdateUser(updatedUser);
             if (response.Data == null)
             {
                 return NotFound(response);
@@ -50,9 +44,9 @@ namespace the_greg_and_larry_show_api.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult<ServiceResponse<List<GetPlayerDto>>>> DeletePlayer(int id)
+        public async Task<ActionResult<ServiceResponse<List<GetUserDto>>>> DeleteUser(int id)
         {
-            var response = await _playerService.DeletePlayer(id);
+            var response = await _UserService.DeleteUser(id);
             if (response.Data == null)
             {
                 return NotFound(response);

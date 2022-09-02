@@ -8,7 +8,7 @@ namespace the_greg_and_larry_show_api.Services.RoundService
 {
     public interface IRoundService
     {
-        Task<ServiceResponse<List<GetRoundDto>>> GetAllRounds();
+        Task<ServiceResponse<List<GetRoundDto>>> GetAllRounds(int userId);
         Task<ServiceResponse<GetRoundDto>> GetRoundById(int id);
         Task<ServiceResponse<List<GetRoundDto>>> AddRound(AddRoundDto newRound);
         Task<ServiceResponse<GetRoundDto>> UpdateRound(UpdateRoundDto updatedRound);

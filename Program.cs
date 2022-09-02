@@ -6,7 +6,7 @@ using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Filters;
 using the_greg_and_larry_show_api.Data;
 using the_greg_and_larry_show_api.Services;
-using the_greg_and_larry_show_api.Services.PlayerService;
+using the_greg_and_larry_show_api.Services.UserService;
 using the_greg_and_larry_show_api.Services.RoundService;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -27,7 +27,7 @@ builder.Services.AddSwaggerGen(c =>
     });
     c.OperationFilter<SecurityRequirementsOperationFilter>();
 });
-builder.Services.AddScoped<IPlayerService, PlayerService>();
+builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IRoundService, RoundService>();
 builder.Services.AddScoped<IAuthRepository, AuthRepository>();
 builder.Services.AddAutoMapper(typeof(Program).Assembly);

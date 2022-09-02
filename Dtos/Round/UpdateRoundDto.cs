@@ -10,7 +10,6 @@ namespace the_greg_and_larry_show_api.Dtos.Round
         public int Id { get; set; }
         public int Score { get; set; }
         public int Level { get; set; }
-        public bool IsSaved { get; set; } = false;
         public bool IsDeleted { get; set; } = false;
     }
 }

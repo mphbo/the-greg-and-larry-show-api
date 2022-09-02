@@ -5,41 +5,31 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using the_greg_and_larry_show_api.Data;
-using the_greg_and_larry_show_api.Dtos.Player;
+using the_greg_and_larry_show_api.Dtos.User;
 using the_greg_and_larry_show_api.Models;
 
-namespace the_greg_and_larry_show_api.Services.PlayerService
+namespace the_greg_and_larry_show_api.Services.UserService
 {
-    public class PlayerService : IPlayerService
+    public class UserService : IUserService
     {
         private readonly IMapper _mapper;
         private readonly DataContext _context;
 
-        public PlayerService(IMapper mapper, DataContext context)
+        public UserService(IMapper mapper, DataContext context)
         {
             _mapper = mapper;
             _context = context;
         }
 
-        public async Task<ServiceResponse<List<GetPlayerDto>>> AddPlayer(AddPlayerDto newPlayer)
+        public async Task<ServiceResponse<List<GetUserDto>>> DeleteUser(int id)
         {
-            var serviceResponse = new ServiceResponse<List<GetPlayerDto>>();
-            Player player = _mapper.Map<Player>(newPlayer);
-            _context.Players.Add(player);
-            await _context.SaveChangesAsync();
-            serviceResponse.Data = await _context.Players.Select(p => _mapper.Map<GetPlayerDto>(p)).ToListAsync();
-            return serviceResponse;
-        }
-
-        public async Task<ServiceResponse<List<GetPlayerDto>>> DeletePlayer(int id)
-        {
-            ServiceResponse<List<GetPlayerDto>> response = new ServiceResponse<List<GetPlayerDto>>();
+            ServiceResponse<List<GetUserDto>> response = new ServiceResponse<List<GetUserDto>>();
             try
             {
-                var dbPlayer = await _context.Players.FirstAsync(p => p.Id == id);
-                _context.Players.Remove(dbPlayer);
+                var dbUser = await _context.Users.FirstAsync(p => p.Id == id);
+                _context.Users.Remove(dbUser);
                 await _context.SaveChangesAsync();
-                response.Data = _context.Players.Select(p => _mapper.Map<GetPlayerDto>(p)).ToList();
+                response.Data = _context.Users.Select(p => _mapper.Map<GetUserDto>(p)).ToList();
             }
             catch (Exception ex)
             {
@@ -50,40 +40,39 @@ namespace the_greg_and_larry_show_api.Services.PlayerService
 
         }
 
-        public async Task<ServiceResponse<List<GetPlayerDto>>> GetAllPlayers()
+        public async Task<ServiceResponse<List<GetUserDto>>> GetAllUsers()
         {
-            var response = new ServiceResponse<List<GetPlayerDto>>();
-            var dbPlayers = await _context.Players.ToListAsync();
-            response.Data = dbPlayers.Select(p => _mapper.Map<GetPlayerDto>(p)).ToList();
+            var response = new ServiceResponse<List<GetUserDto>>();
+            var dbUsers = await _context.Users.Include(p => p.Rounds).ToListAsync();
+            response.Data = dbUsers.Select(p => _mapper.Map<GetUserDto>(p)).ToList();
             return response;
         }
 
-        public async Task<ServiceResponse<GetPlayerDto>> GetPlayerById(int id)
+        public async Task<ServiceResponse<GetUserDto>> GetUserById(int id)
         {
-            var serviceResponse = new ServiceResponse<GetPlayerDto>();
-            var dbPlayer = await _context.Players.Include(p => p.Rounds).FirstOrDefaultAsync(p => p.Id == id);
-            serviceResponse.Data = _mapper.Map<GetPlayerDto>(dbPlayer);
+            var serviceResponse = new ServiceResponse<GetUserDto>();
+            var dbUser = await _context.Users.Include(p => p.Rounds).FirstOrDefaultAsync(p => p.Id == id);
+            serviceResponse.Data = _mapper.Map<GetUserDto>(dbUser);
             return serviceResponse;
         }
 
-        public async Task<ServiceResponse<GetPlayerDto>> UpdatePlayer(UpdatePlayerDto updatedPlayer)
+        public async Task<ServiceResponse<GetUserDto>> UpdateUser(UpdateUserDto updatedUser)
         {
-            ServiceResponse<GetPlayerDto> response = new ServiceResponse<GetPlayerDto>();
+            ServiceResponse<GetUserDto> response = new ServiceResponse<GetUserDto>();
             try
             {
-                var dbPlayer = await _context.Players.FirstOrDefaultAsync(p => p.Id == updatedPlayer.Id);
+                var dbUser = await _context.Users.FirstOrDefaultAsync(p => p.Id == updatedUser.Id);
 
-                if (dbPlayer != null)
+                if (dbUser != null)
                 {
-                    dbPlayer.FirstName = updatedPlayer.FirstName;
-                    dbPlayer.LastName = updatedPlayer.LastName;
-                    dbPlayer.Email = updatedPlayer.Email;
+                    dbUser.FirstName = updatedUser.FirstName;
+                    dbUser.LastName = updatedUser.LastName;
                 }
 
                 await _context.SaveChangesAsync();
 
 
-                response.Data = _mapper.Map<GetPlayerDto>(dbPlayer);
+                response.Data = _mapper.Map<GetUserDto>(dbUser);
             }
             catch (Exception ex)
             {

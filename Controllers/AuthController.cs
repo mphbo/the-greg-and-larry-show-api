@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using the_greg_and_larry_show_api.Data;
-using the_greg_and_larry_show_api.Dtos.Player;
+using the_greg_and_larry_show_api.Dtos.User;
 
 namespace the_greg_and_larry_show_api.Controllers
 {
@@ -20,10 +20,10 @@ namespace the_greg_and_larry_show_api.Controllers
         }
 
         [HttpPost("register")]
-        public async Task<ActionResult<ServiceResponse<int>>> Register(PlayerRegisterDto request)
+        public async Task<ActionResult<ServiceResponse<int>>> Register(UserRegisterDto request)
         {
             var response = await _authRepo.Register(
-                new Player { Username = request.Username, Email = request.Email }, request.Password
+                new User { Username = request.Username, Email = request.Email, FirstName = request.FirstName, LastName = request.LastName }, request.Password
             );
             if (!response.Success)
             {
@@ -33,7 +33,7 @@ namespace the_greg_and_larry_show_api.Controllers
         }
 
         [HttpPost("login")]
-        public async Task<ActionResult<ServiceResponse<int>>> Login(PlayerLoginDto request)
+        public async Task<ActionResult<ServiceResponse<int>>> Login(UserLoginDto request)
         {
             var response = await _authRepo.Login(request.Email, request.Password);
             if (!response.Success)

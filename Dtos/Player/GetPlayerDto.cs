@@ -4,9 +4,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using the_greg_and_larry_show_api.Dtos.Round;
 
-namespace the_greg_and_larry_show_api.Dtos.Player
+namespace the_greg_and_larry_show_api.Dtos.User
 {
-    public class GetPlayerDto
+    public class GetUserDto
     {
         public int Id { get; set; }
         public string Username { get; set; } = string.Empty;

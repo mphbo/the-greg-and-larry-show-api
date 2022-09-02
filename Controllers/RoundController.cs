@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using the_greg_and_larry_show_api.Dtos.Round;
 using the_greg_and_larry_show_api.Services.RoundService;
 using Microsoft.AspNetCore.Authorization;
-
+using System.Security.Claims;
 
 namespace the_greg_and_larry_show_api.Controllers
 {
@@ -25,7 +25,8 @@ namespace the_greg_and_larry_show_api.Controllers
         [HttpGet("GetAll")]
         public async Task<ActionResult<ServiceResponse<List<GetRoundDto>>>> Get()
         {
-            return Ok(await _roundService.GetAllRounds());
+            int userId = int.Parse(User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value);
+            return Ok(await _roundService.GetAllRounds(userId));
         }
 
         [HttpGet("{id}")]

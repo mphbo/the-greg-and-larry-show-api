@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace the_greg_and_larry_show_api.Models
 {
-    public class Player
+    public class User
     {
         public int Id { get; set; }
         public string Username { get; set; } = string.Empty;
