@@ -4,8 +4,10 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using the_greg_and_larry_show_api.Dtos.User;
 
 namespace the_greg_and_larry_show_api.Data
 {
@@ -13,16 +15,18 @@ namespace the_greg_and_larry_show_api.Data
     {
         private readonly DataContext _context;
         private readonly IConfiguration _configuration;
+        private readonly IMapper _mapper;
 
-        public AuthRepository(DataContext context, IConfiguration configuration)
+        public AuthRepository(DataContext context, IConfiguration configuration, IMapper mapper)
         {
             _context = context;
             _configuration = configuration;
+            _mapper = mapper;
         }
-        public async Task<ServiceResponse<string>> Login(string email, string password)
+        public async Task<ServiceResponse<LoginResponse>> Login(string email, string password)
         {
-            var response = new ServiceResponse<string>();
-            var User = await _context.Users.FirstOrDefaultAsync(p => p.Email.ToLower().Equals(email.ToLower()));
+            var response = new ServiceResponse<LoginResponse>();
+            var User = await _context.Users.Include(u => u.Rounds).FirstOrDefaultAsync(p => p.Email.ToLower().Equals(email.ToLower()));
 
             if (User == null)
             {
@@ -36,22 +40,26 @@ namespace the_greg_and_larry_show_api.Data
             }
             else
             {
-                response.Data = CreateToken(User);
+                response.Data = new LoginResponse
+                {
+                    Token = CreateToken(User),
+                    User = _mapper.Map<GetUserDto>(User)
+                };
             }
             return response;
         }
 
-        public async Task<ServiceResponse<int>> Register(User User, string password)
+        public async Task<ServiceResponse<LoginResponse>> Register(User user, string password)
         {
-            ServiceResponse<int> response = new ServiceResponse<int>();
-            if (await UserEmailExists(User.Email))
+            ServiceResponse<LoginResponse> response = new ServiceResponse<LoginResponse>();
+            if (await UserEmailExists(user.Email))
             {
                 response.Success = false;
                 response.Message = "User email already exists.";
                 return response;
             }
 
-            if (await UserUsernameExists(User.Username))
+            if (await UserUsernameExists(user.Username))
             {
                 response.Success = false;
                 response.Message = "User username already exists.";
@@ -60,13 +68,13 @@ namespace the_greg_and_larry_show_api.Data
 
             CreatePasswordHash(password, out byte[] passwordHash, out byte[] passwordSalt);
 
-            User.PasswordHash = passwordHash;
-            User.PasswordSalt = passwordSalt;
+            user.PasswordHash = passwordHash;
+            user.PasswordSalt = passwordSalt;
 
-            _context.Users.Add(User);
+            _context.Users.Add(user);
             await _context.SaveChangesAsync();
-            response.Data = User.Id;
-            return response;
+
+            return await this.Login(user.Email, password);
         }
 
         public async Task<bool> UserEmailExists(string email)

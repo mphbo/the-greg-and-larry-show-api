@@ -13,6 +13,7 @@ namespace the_greg_and_larry_show_api
         public AutoMapperProfile()
         {
             CreateMap<User, GetUserDto>();
+            CreateMap<GetUserDto, User>();
             CreateMap<UserRegisterDto, User>();
             CreateMap<Round, GetRoundDto>();
             CreateMap<AddRoundDto, Round>();

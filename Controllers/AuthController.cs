@@ -20,7 +20,7 @@ namespace the_greg_and_larry_show_api.Controllers
         }
 
         [HttpPost("register")]
-        public async Task<ActionResult<ServiceResponse<int>>> Register(UserRegisterDto request)
+        public async Task<ActionResult<ServiceResponse<LoginResponse>>> Register(UserRegisterDto request)
         {
             var response = await _authRepo.Register(
                 new User { Username = request.Username, Email = request.Email, FirstName = request.FirstName, LastName = request.LastName }, request.Password
@@ -33,7 +33,7 @@ namespace the_greg_and_larry_show_api.Controllers
         }
 
         [HttpPost("login")]
-        public async Task<ActionResult<ServiceResponse<int>>> Login(UserLoginDto request)
+        public async Task<ActionResult<ServiceResponse<LoginResponse>>> Login(UserLoginDto request)
         {
             var response = await _authRepo.Login(request.Email, request.Password);
             if (!response.Success)

@@ -26,19 +26,19 @@ namespace the_greg_and_larry_show_api.Controllers
         public async Task<ActionResult<ServiceResponse<List<GetRoundDto>>>> Get()
         {
             int userId = int.Parse(User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value);
-            return Ok(await _roundService.GetAllRounds(userId));
+            return Ok(await _roundService.GetAllRounds());
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<ServiceResponse<GetRoundDto>>> GetSingle(int id, int userId)
         {
-            return Ok(await _roundService.GetRoundById(id, userId));
+            return Ok(await _roundService.GetRoundById(id));
         }
 
         [HttpPost]
-        public async Task<ActionResult<ServiceResponse<List<GetRoundDto>>>> AddRound(AddRoundDto newRound)
+        public async Task<ActionResult<ServiceResponse<List<GetRoundDto>>>> AddRound()
         {
-            return Ok(await _roundService.AddRound(newRound));
+            return Ok(await _roundService.AddRound());
         }
 
         [HttpPut]
