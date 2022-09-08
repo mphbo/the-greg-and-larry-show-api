@@ -2277,11 +2277,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/logan.thomas/Websites/the-greg-and-larry-show-api/the-greg-and-larry-show-api.csproj",
+      "projectUniqueName": "/Users/logan.thomas/Websites/the-greg-and-larry-show/the-greg-and-larry-show-api/the-greg-and-larry-show-api.csproj",
       "projectName": "the-greg-and-larry-show-api",
-      "projectPath": "/Users/logan.thomas/Websites/the-greg-and-larry-show-api/the-greg-and-larry-show-api.csproj",
+      "projectPath": "/Users/logan.thomas/Websites/the-greg-and-larry-show/the-greg-and-larry-show-api/the-greg-and-larry-show-api.csproj",
       "packagesPath": "/Users/logan.thomas/.nuget/packages/",
-      "outputPath": "/Users/logan.thomas/Websites/the-greg-and-larry-show-api/obj/",
+      "outputPath": "/Users/logan.thomas/Websites/the-greg-and-larry-show/the-greg-and-larry-show-api/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "/Users/logan.thomas/.nuget/NuGet/NuGet.Config"

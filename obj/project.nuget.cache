@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "XwpDvnpnG1Pl+Hw5DPLlHEfZq+L7v0JpMK1V5Xmzudxe+fUTY72ogNhGAzB45gHkwAstJa7awJsvDt+oBYRX/g==",
+  "dgSpecHash": "EoyiEGvfp2oQa6jyI7mJ/rxwlbz7w3MQkdot4j8SpZLYkT55JaQgm5AcyMX9/LQeO6j7wtuW7e/pN16uRCk1SA==",
   "success": true,
-  "projectFilePath": "/Users/logan.thomas/Websites/the-greg-and-larry-show-api/the-greg-and-larry-show-api.csproj",
+  "projectFilePath": "/Users/logan.thomas/Websites/the-greg-and-larry-show/the-greg-and-larry-show-api/the-greg-and-larry-show-api.csproj",
   "expectedPackageFiles": [
     "/Users/logan.thomas/.nuget/packages/automapper/11.0.0/automapper.11.0.0.nupkg.sha512",
     "/Users/logan.thomas/.nuget/packages/automapper.extensions.microsoft.dependencyinjection/11.0.0/automapper.extensions.microsoft.dependencyinjection.11.0.0.nupkg.sha512",
