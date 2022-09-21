@@ -13,12 +13,14 @@ RUN dotnet restore
 
 # Copy everything else and build
 COPY ./ ./
-RUN dotnet publish -c Release -o out
+RUN dotnet publish -c release -o out --no-restore
 
 # Build runtime image
 FROM mcr.microsoft.com/dotnet/aspnet:6.0
 WORKDIR /app
-COPY --from=build-env /app/out .
-EXPOSE 80 
+COPY --from=build-env /app/out ./
+
+EXPOSE 5000
+
 ENTRYPOINT ["dotnet", "the-greg-and-larry-show-api.dll"]
 
